@@ -1,15 +1,15 @@
 # 📝 Mock Examination System
 
-A fully functional console-based quiz and examination system built entirely in **x86 Assembly Language (MASM)** with the Irvine32 library — developed as part of the Computer Organization & Assembly Language course at FAST-NUCES Karachi.
+A fully functional console-based quiz and examination system built entirely in **x86 Assembly Language (MASM)** with the Irvine32 library developed as part of the Computer Organization & Assembly Language course at FAST-NUCES Karachi.
 
 ## About
 
-This project simulates a real exam environment at the lowest level of programming — using registers, memory addressing, and procedures to handle everything from login authentication to randomized question generation and detailed result analysis.
+This project simulates a real exam environment at the lowest level of programming using registers, memory addressing, and procedures to handle everything from login authentication to randomized question generation and detailed result analysis.
 
 ## Features
 
 - **Login authentication** — secure credential validation with password handling
-- **Subject selection** — DSA, DS, COAL, ISE, FOA
+- **Subject selection** — DSA, DS, COAL, ISE, FOA, LA
 - **Random question generation** — flag-array based system ensures no question repeats in a session
 - **Answer validation** — A/B choice input with full input checking
 - **Score calculation** — real-time scoring throughout the exam
