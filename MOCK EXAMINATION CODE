@@ -1,0 +1,1151 @@
+INCLUDE Irvine32.inc
+buffersize=500
+
+.data
+WelcomeMsg BYTE "                                         WELCOME TO THE MOCK EXAMINATION SYSTEM                                         ", 0
+username BYTE "Aiman", 0, 20 DUP(?) 
+password BYTE "Fast123", 0, 20 DUP(?)
+input BYTE 20 DUP(?)
+username_prompt BYTE "Enter username: ",0
+password_prompt BYTE "Enter password: ",0
+success_message BYTE "Login successful!",0
+failure_message BYTE "Login failed! Please enter correct information",0
+register_prompt BYTE "Would you like to register? (Y/N): ", 0
+new_username_prompt BYTE "Enter new username: ", 0
+new_password_prompt BYTE "Enter new password: ", 0
+registration_success BYTE "Registration successful! You can now login.", 0
+attempts_remaining_msg BYTE " attempts remaining", 0
+goodbye_msg BYTE "Goodbye! Please try again later.", 0
+max_attempts = 3
+attempt_count DWORD 0
+
+initial_prompt BYTE "Do you want to (1) Sign In or (2) Register? ", 0
+invalid_choice_msg BYTE "Invalid choice! Please enter 1 or 2.", 0
+sign_in_choice BYTE "1", 0
+register_choice BYTE "2", 0
+
+continue_prompt BYTE "Would you like to attempt another subject quiz? (Y/N): ", 0
+invalid_continue_msg BYTE "Invalid input! Please enter Y or N.", 0
+thank_you_msg BYTE "Thank you for using the Mock Examination System!", 0
+
+
+subjectmsg1 BYTE "Press 1 for DATA STRUCTURES AND ALGORITHM: ",0
+subjectmsg2 BYTE "Press 2 for DISCRETE STRUCTURE: ",0
+subjectmsg3 BYTE "Press 3 for COMPUTER ORGANIZATION AND LANGUAGE: ",0
+subjectmsg4 BYTE "Press 4 for INTRODUCTION TO SOFTWARE ENGINEERING: ",0
+subjectmsg5 BYTE "Press 5 for FUNDAMENTALS OF ACCOUNTING: ",0
+subjectmsg6 BYTE "Press 6 for LINEAR ALGEBRA: ",0
+invalid_subject_msg BYTE "Invalid choice! Please enter 1-6 only.",0
+
+Dsaq1 BYTE "Q. What does DSA stands for? ", 0
+Dsaq2 BYTE "Q. What is Stack? ",0
+Dsaq3 BYTE "Q. Which data structure organizes data in a hierarchical structure with a top-down or bottom-up approach? ",0
+Dsaq4 BYTE "Q. Define what a ""Queue"" is in the context of data structures. ", 0
+Dsaq5 BYTE "Q. What is the purpose of a ""Hash Table"" in data structures, and how does it work? ",0
+Dsaq6 BYTE "Q. Which searching algorithm requires the data to be sorted beforehand? ",0
+Dsaq7 BYTE "Q. What is the time complexity of binary search algorithm? ",0
+
+option1A BYTE "A. Data Structures and Algorithms. ",0
+option1B BYTE "B. Data Structres. ",0
+option2A BYTE "A. Stack is a Data Structure that uses LIFO.",0
+option2B BYTE "B. Stack is nothing. ",0
+option3A BYTE "A. Linked List. ",0
+option3B BYTE "B. Trees. ",0
+option4A BYTE "A. A Linear Data Structure. ",0
+option4B BYTE "B. A data structure that follows the Last In, First Out (LIFO) principle. ",0
+option5A BYTE "A. Used for sorting elements in ascending order. ",0
+option5B BYTE "B. A data structure that allows for efficient data retrieval and storage based on key-value pairs. ",0
+option6A BYTE "A. Linear Search",0
+option6B BYTE "B. Binary Search",0
+option7A BYTE "A. O(1)",0
+option7B BYTE "B. O(log n)",0
+
+DISCq1 BYTE "Q. What is an AVL Tree? ", 0
+DISCq2 BYTE "Q. What is a Complete Binary Tree? ", 0
+DISCq3 BYTE "Q. Which of the following is a logical connective representing ""ifthen"" in propositional logic? ",0
+DISCq4 BYTE "Q. What is the cardinality of the power set of a set with n elements? ",0
+DISCq5 BYTE "Q. In set theory, the symmetric difference of sets A and B is denoted by: ",0
+DISCq6 BYTE "Q. Which of the following is a example of a tautology? ",0
+DISCq7 BYTE "Q. What is the number of edges in a complete graph with n vertices? ",0
+
+option8A BYTE "A. An AVL tree is a self-balancing binary search tree. ",0
+option8B BYTE "B. An AVL tree is a dis-balancing binary search tree. ",0
+option9A BYTE "A. A complete binary tree is a binary tree in which all levels, except possibly the last, are NOT completely filled, and all nodes are NOT as left as possible. ", 0
+option9B BYTE "B. A complete binary tree is a binary tree in which all levels, except possibly the last, are completely filled, and all nodes are as left as possible. ",0
+option10A BYTE "A. (AND) ",0
+option10B BYTE "B. (IMPLICATION ->)",0
+option11A BYTE "A. n ",0
+option11B BYTE "B. 2^n ",0
+option12A BYTE "A. A intersection B ",0
+option12B BYTE "B. A symmetric B",0
+option13A BYTE "A. p AND ?",0
+option13B BYTE "B. p OR ?",0
+option14A BYTE "A. n",0
+option14B BYTE "B. n(n-1)/2",0
+
+coalq1 BYTE "Q. What is the primary function of the ALU Arithmetic Logic Unit in a CPU? ",0
+coalq2 BYTE "Q. In assembly language, what does the mnemonic ""ADD"" typically represent? ",0
+coalq3 BYTE "Q. What is the purpose of the stack pointer SP register in a computer system? ",0
+coalq4 BYTE "Q. What is the role of the MAR Memory Address Register in a computer system? ",0
+coalq5 BYTE "Q. Which addressing mode uses a constant or immediate value in an instruction? ",0
+coalq6 BYTE "Q. What is the purpose of the control unit in a CPU? ",0
+coalq7 BYTE "Q. Which register holds the address of the next instruction to be executed? ",0
+
+option15A BYTE "A. Data Storage. ",0
+option15B BYTE "B. Arithmetic and logical operations. ",0
+option16A BYTE "A. Add. ",0
+option16B BYTE "B. Subtract. ",0
+option17A BYTE "A. Points to the next instruction to be executed. ",0
+option17B BYTE "B. Points to the top of the stack in memory. ",0
+option18A BYTE "A. Stores the result of arithmetic operations. ",0
+option18B BYTE "B. Holds the memory address for read or write operations. ",0
+option19A BYTE "A. Direct addressing mode. ",0
+option19B BYTE "B. Immediate addressing mode.",0
+option20A BYTE "A. Perform arithmetic operations",0
+option20B BYTE "B. Coordinate and control all CPU operations",0
+option21A BYTE "A. Program Counter (PC)",0
+option21B BYTE "B. Memory Address Register (MAR)",0
+
+ISEq1 BYTE "Q. What is the main purpose of Software Engineering? ",0
+ISEq2 BYTE "Q. Which software development model is also known as the linear sequential model? ",0
+ISEq3 BYTE "Q. What does SDLC stand for in software engineering? ",0
+ISEq4 BYTE "Q. Which testing technique tests the individual units or components of software? ",0
+ISEq5 BYTE "Q. What is the primary goal of requirement analysis in software engineering? ",0
+ISEq6 BYTE "Q. Which diagram in UML shows the interaction between objects in sequence? ",0
+ISEq7 BYTE "Q. What is the purpose of version control systems like Git? ",0
+
+option22A BYTE "A. To write code quickly",0
+option22B BYTE "B. To systematically develop and maintain software",0
+option23A BYTE "A. Agile Model",0
+option23B BYTE "B. Waterfall Model",0
+option24A BYTE "A. Software Design Life Cycle",0
+option24B BYTE "B. Software Development Life Cycle",0
+option25A BYTE "A. Unit Testing",0
+option25B BYTE "B. System Testing",0
+option26A BYTE "A. To write documentation",0
+option26B BYTE "B. To understand user needs and constraints",0
+option27A BYTE "A. Sequence Diagram",0
+option27B BYTE "B. Class Diagram",0
+option28A BYTE "A. Track changes and collaborate on code",0
+option28B BYTE "B. Compile programs faster",0
+
+FOAq1 BYTE "Q. What is the basic accounting equation? ",0
+FOAq2 BYTE "Q. Which financial statement shows company's financial position at a point in time? ",0
+FOAq3 BYTE "Q. What is the purpose of a balance sheet? ",0
+FOAq4 BYTE "Q. Which accounting principle states that revenue should be recorded when earned? ",0
+FOAq5 BYTE "Q. What are accounts payable considered in accounting? ",0
+FOAq6 BYTE "Q. Which statement shows revenues and expenses over a period? ",0
+FOAq7 BYTE "Q. What is the double-entry bookkeeping system? ",0
+
+option29A BYTE "A. Profit = Revenue - Expenses",0
+option29B BYTE "B. Assets = Liabilities + Owner's Equity",0
+option30A BYTE "A. Income Statement",0
+option30B BYTE "B. Balance Sheet",0
+option31A BYTE "A. To show company performance over time",0
+option31B BYTE "B. To show assets, liabilities and equity at specific date",0
+option32A BYTE "A. Matching Principle",0
+option32B BYTE "B. Revenue Recognition Principle",0
+option33A BYTE "A. Liability",0
+option33B BYTE "B. Asset",0
+option34A BYTE "A. Income Statement",0
+option34B BYTE "B. Cash Flow Statement",0
+option35A BYTE "A. Every transaction affects two accounts",0
+option35B BYTE "B. Recording transactions only once",0
+
+LAq1 BYTE "Q. What is the result of matrix multiplication if A is 2x3 and B is 3x4? ",0
+LAq2 BYTE "Q. What is the determinant of a 2x2 matrix [a b; c d]? ",0
+LAq3 BYTE "Q. Which of the following is a property of eigenvectors? ",0
+LAq4 BYTE "Q. What does it mean for a matrix to be singular? ",0
+LAq5 BYTE "Q. What is the rank of a matrix? ",0
+LAq6 BYTE "Q. Which method is used to solve systems of linear equations? ",0
+LAq7 BYTE "Q. What is the dot product of two perpendicular vectors? ",0
+
+option36A BYTE "A. 2x4 matrix",0
+option36B BYTE "B. 3x3 matrix",0
+option37A BYTE "A. ad - bc",0
+option37B BYTE "B. a + d - b - c",0
+option38A BYTE "A. They remain parallel after transformation",0
+option38B BYTE "B. They change direction after transformation",0
+option39A BYTE "A. It has no inverse",0
+option39B BYTE "B. It is symmetric",0
+option40A BYTE "A. The number of linearly independent rows",0
+option40B BYTE "B. The total number of rows",0
+option41A BYTE "A. Gaussian elimination",0
+option41B BYTE "B. Pythagorean theorem",0
+option42A BYTE "A. 1",0
+option42B BYTE "B. 0",0
+
+userPrompt BYTE "Enter your answer (A or B): ",0
+invalid_answer_msg BYTE "Invalid input! Please enter only A or B (uppercase).",0
+empty_input_msg BYTE "Error: No input provided! Please enter A or B.",0
+
+DSA_questions DWORD OFFSET Dsaq1, OFFSET Dsaq2, OFFSET Dsaq3, OFFSET Dsaq4, OFFSET Dsaq5,OFFSET Dsaq6, OFFSET Dsaq7
+DSA_options1 DWORD OFFSET option1A, OFFSET option2A, OFFSET option3A, OFFSET option4A, OFFSET option5A, OFFSET option6A, Offset option7A
+DSA_options2 DWORD OFFSET option1B, OFFSET option2B, OFFSET option3B, OFFSET option4B, OFFSET option5B,OFFSET option6B, OFFSET option7B
+DSA_answers BYTE "A", "A", "B", "A", "B", "B", "B"
+
+DISC_questions DWORD OFFSET DISCq1, OFFSET DISCq2, OFFSET DISCq3, OFFSET DISCq4, OFFSET DISCq5, OFFSET DISCq6, OFFSET DISCq7
+DISC_options1 DWORD OFFSET option8A, OFFSET option9A, OFFSET option10A, OFFSET option11A, OFFSET option12A,OFFSET option13A, OFFSET option14A
+DISC_options2 DWORD OFFSET option8B, OFFSET option9B, OFFSET option10B, OFFSET option11B, OFFSET option12B,OFFSET option13B, OFFSET option14B
+DISC_answers BYTE "A", "B", "B", "B", "B", "B", "B"
+
+COAL_questions DWORD OFFSET coalq1, OFFSET coalq2, OFFSET coalq3, OFFSET coalq4, OFFSET coalq5, OFFSET coalq6, OFFSET coalq7
+COAL_options1 DWORD OFFSET option15A, OFFSET option16A, OFFSET option17A, OFFSET option18A, OFFSET option19A,OFFSET option20A, OFFSET option21A
+COAL_options2 DWORD OFFSET option15B, OFFSET option16B, OFFSET option17B, OFFSET option18B, OFFSET option19B,OFFSET option20B, OFFSET option21B
+COAL_answers BYTE "B", "A", "B", "B", "B", "B", "A"
+
+ISE_questions DWORD OFFSET ISEq1, OFFSET ISEq2, OFFSET ISEq3, OFFSET ISEq4, OFFSET ISEq5,OFFSET ISEq6, OFFSET ISEq7
+ISE_options1 DWORD OFFSET option22A, OFFSET option23A, OFFSET option24A, OFFSET option25A, OFFSET option26A,OFFSET option27A, OFFSET option28A
+ISE_options2 DWORD OFFSET option22B, OFFSET option23B, OFFSET option24B, OFFSET option25B, OFFSET option26B,OFFSET option27B, OFFSET option28B
+ISE_answers BYTE "B", "B", "B", "A", "B","A","A"
+
+FOA_questions DWORD OFFSET FOAq1, OFFSET FOAq2, OFFSET FOAq3, OFFSET FOAq4, OFFSET FOAq5, OFFSET FOAq6, OFFSET FOAq7
+FOA_options1 DWORD OFFSET option29A, OFFSET option30A, OFFSET option31A, OFFSET option32A, OFFSET option33A, OFFSET option34A, OFFSET option35A
+FOA_options2 DWORD OFFSET option29B, OFFSET option30B, OFFSET option31B, OFFSET option32B, OFFSET option33B, OFFSET option34B, OFFSET option35B
+FOA_answers BYTE "B", "B", "B", "B", "A", "A", "A"
+
+LA_questions DWORD OFFSET LAq1, OFFSET LAq2, OFFSET LAq3, OFFSET LAq4, OFFSET LAq5, OFFSET LAq6, OFFSET LAq7
+LA_options1 DWORD OFFSET option36A, OFFSET option37A, OFFSET option38A, OFFSET option39A, OFFSET option40A, OFFSET option41A, OFFSET option42A
+LA_options2 DWORD OFFSET option36B, OFFSET option37B, OFFSET option38B, OFFSET option39B, OFFSET option40B, OFFSET option41B, OFFSET option42B
+LA_answers BYTE "A", "A", "A", "A", "A", "A", "B"
+
+; For tracking which questions have been asked
+question_flags BYTE 7 DUP(0)
+current_question_index DWORD 0
+
+; For result analysis
+user_answers BYTE 7 DUP(?)
+correct_answers BYTE 7 DUP(?)
+question_numbers BYTE 7 DUP(?)
+
+; Analysis messages
+analysis_header BYTE "=== RESULT ANALYSIS ===", 0
+question_header BYTE "Q#  Your Ans  Correct  Status", 0
+separator_line BYTE "---------------------------", 0
+correct_count_msg BYTE "Total Correct: ", 0
+incorrect_count_msg BYTE "Total Incorrect: ", 0
+percentage_msg BYTE "Percentage: ", 0
+percent_sign BYTE "%", 0
+
+correctMessage BYTE "Correct!",0
+incorrectMessage BYTE "Incorrect!",0
+scoremsg BYTE "Final Score: ",0
+score DWORD 0
+buffer1 byte buffersize DUP(?)
+
+login PROTO
+
+.code
+main proc
+    mov eax, green + (black * 16) 
+    call SetTextColor
+call initial_choice
+
+call Randomize
+
+subject_menu:
+    mov score, 0                    
+    call reset_question_flags   
+    mov edx,OFFSET subjectmsg1
+    call WriteString
+    call crlf
+    mov edx,OFFSET subjectmsg2
+    call WriteString
+    call crlf
+    mov edx,OFFSET subjectmsg3
+    call WriteString
+    call crlf
+    mov edx,OFFSET subjectmsg4
+    call WriteString
+    call crlf
+    mov edx,OFFSET subjectmsg5
+    call WriteString
+    call crlf
+    mov edx,OFFSET subjectmsg6
+    call WriteString
+    call crlf
+    call ReadDec
+    call validate_subject_choice
+    jc subject_menu
+    cmp eax, 1
+    je DSA
+    cmp eax, 2
+    je DISC
+    cmp eax, 3
+    je COAL
+    cmp eax, 4
+    je ISE
+    cmp eax, 5
+    je FOA
+    cmp eax, 6
+    je LA
+
+    DSA:
+    mov ecx, 7  
+    mov esi, OFFSET user_answers      
+    mov edi, OFFSET correct_answers     
+    mov ebx, OFFSET question_numbers         
+    
+dsa_loop:
+    push ecx
+    push esi
+    push edi
+    push ebx
+    
+    call get_random_question
+    mov edx, current_question_index
+    mov [ebx], dl                    
+    
+                                                   
+    mov esi, OFFSET DSA_questions
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+                                               
+    mov esi, OFFSET DSA_options1
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET DSA_options2
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    call get_valid_answer
+    
+                                   ; Store user answer and correct answer for analysis
+    pop ebx
+    pop edi
+    pop esi
+    mov al, buffer1
+    mov [esi], al                             ; This store user answer
+    
+    mov edx, OFFSET DSA_answers
+    mov eax, current_question_index
+    mov al, [edx + eax]
+    mov [edi], al                            ; This store correct answer
+    
+   
+    call Result
+    
+    inc esi
+    inc edi
+    inc ebx
+    pop ecx
+    dec ecx
+    jnz dsa_loop
+    
+   call display_analysis     
+  call ask_continue          
+  jmp subject_menu
+
+DISC:
+    mov ecx, 7  
+    mov esi, OFFSET user_answers   
+    mov edi, OFFSET correct_answers     
+    mov ebx, OFFSET question_numbers         
+    
+disc_loop:
+    push ecx
+    push esi
+    push edi
+    push ebx
+    
+    call get_random_question
+    mov edx, current_question_index
+    mov [ebx], dl                             
+    
+    mov esi, OFFSET DISC_questions
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET DISC_options1
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET DISC_options2
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    call get_valid_answer
+    
+    pop ebx
+    pop edi
+    pop esi
+    mov al, buffer1
+    mov [esi], al                       
+    
+    mov edx, OFFSET DISC_answers
+    mov eax, current_question_index
+    mov al, [edx + eax]
+    mov [edi], al                           
+    
+   
+    call Result
+    
+    inc esi
+    inc edi
+    inc ebx
+    pop ecx
+    dec ecx
+    jnz disc_loop
+    
+    call display_analysis
+    call ask_continue          
+  jmp subject_menu
+
+    
+
+    COAL:
+    mov ecx, 7 
+    mov esi, OFFSET user_answers      
+    mov edi, OFFSET correct_answers   
+    mov ebx, OFFSET question_numbers  
+    
+coal_loop:
+    push ecx
+    push esi
+    push edi
+    push ebx
+    
+    call get_random_question
+    mov edx, current_question_index
+    mov [ebx], dl                            
+    
+    mov esi, OFFSET COAL_questions
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+
+    mov esi, OFFSET COAL_options1
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET COAL_options2
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    call get_valid_answer
+    
+    pop ebx
+    pop edi
+    pop esi
+    mov al, buffer1
+    mov [esi], al                             ; This store user answer
+    
+    mov edx, OFFSET COAL_answers
+    mov eax, current_question_index
+    mov al, [edx + eax]
+    mov [edi], al                            ; This store correct answer
+    
+   
+    call Result
+    
+    inc esi
+    inc edi
+    inc ebx
+    pop ecx
+    dec ecx
+    jnz coal_loop
+    
+     call display_analysis     
+  call ask_continue          
+  jmp subject_menu
+    
+ISE:
+    mov ecx, 7  
+    mov esi, OFFSET user_answers
+    mov edi, OFFSET correct_answers
+    mov ebx, OFFSET question_numbers
+    
+ise_loop:
+    push ecx
+    push esi
+    push edi
+    push ebx
+    
+    call get_random_question
+    mov edx, current_question_index
+    mov [ebx], dl
+    
+    ; Display question
+    mov esi, OFFSET ISE_questions
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    ; Display options
+    mov esi, OFFSET ISE_options1
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET ISE_options2
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    call get_valid_answer
+    
+    ; Store answers for analysis
+    pop ebx
+    pop edi
+    pop esi
+    mov al, buffer1
+    mov [esi], al
+    
+    mov edx, OFFSET ISE_answers
+    mov eax, current_question_index
+    mov al, [edx + eax]
+    mov [edi], al
+    
+    call Result
+    
+    inc esi
+    inc edi
+    inc ebx
+    pop ecx
+    dec ecx
+    jnz ise_loop
+    
+   call display_analysis     
+  call ask_continue          
+  jmp subject_menu
+
+FOA:
+    mov ecx, 7  
+    mov esi, OFFSET user_answers
+    mov edi, OFFSET correct_answers
+    mov ebx, OFFSET question_numbers
+    
+foa_loop:
+    push ecx
+    push esi
+    push edi
+    push ebx
+    
+    call get_random_question
+    mov edx, current_question_index
+    mov [ebx], dl
+    
+    ; Display question
+    mov esi, OFFSET FOA_questions
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    ; Display options
+    mov esi, OFFSET FOA_options1
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET FOA_options2
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    call get_valid_answer
+    
+    ; Store answers for analysis
+    pop ebx
+    pop edi
+    pop esi
+    mov al, buffer1
+    mov [esi], al
+    
+    mov edx, OFFSET FOA_answers
+    mov eax, current_question_index
+    mov al, [edx + eax]
+    mov [edi], al
+    
+    call Result
+    
+    inc esi
+    inc edi
+    inc ebx
+    pop ecx
+    dec ecx
+    jnz foa_loop
+
+  call display_analysis     
+  call ask_continue          
+  jmp subject_menu
+
+  LA:
+    mov ecx, 7  
+    mov esi, OFFSET user_answers
+    mov edi, OFFSET correct_answers
+    mov ebx, OFFSET question_numbers
+    
+la_loop:
+    push ecx
+    push esi
+    push edi
+    push ebx
+    
+    call get_random_question
+    mov edx, current_question_index
+    mov [ebx], dl
+    
+    mov esi, OFFSET LA_questions
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET LA_options1
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    mov esi, OFFSET LA_options2
+    mov eax, current_question_index
+    mov edx, [esi + eax * 4]
+    call WriteString
+    call crlf
+    
+    call get_valid_answer
+    
+    ; Store answers for analysis
+    pop ebx
+    pop edi
+    pop esi
+    mov al, buffer1
+    mov [esi], al
+    
+    mov edx, OFFSET LA_answers
+    mov eax, current_question_index
+    mov al, [edx + eax]
+    mov [edi], al
+    
+    call Result
+    
+    inc esi
+    inc edi
+    inc ebx
+    pop ecx
+    dec ecx
+    jnz la_loop
+    
+    call display_analysis     
+    call ask_continue          
+    jmp subject_menu
+
+exit
+main endp
+initial_choice PROC
+    call clrscr
+    mov edx, OFFSET WelcomeMsg
+    call WriteString
+    call crlf
+    call crlf
+    
+initial_prompt_loop:
+    mov edx, OFFSET initial_prompt
+    call WriteString
+    
+    mov edx, OFFSET input
+    mov ecx, 2
+    call ReadString
+    
+    mov al, [input]
+    cmp al, '1'
+    je sign_in_selected
+    cmp al, '2'
+    je register_selected
+    
+    ; Invalid input
+    mov edx, OFFSET invalid_choice_msg
+    call WriteString
+    call crlf
+    jmp initial_prompt_loop
+
+sign_in_selected:
+    INVOKE login
+    ret
+
+register_selected:
+    call register_user
+    mov edx, OFFSET registration_success
+    call WriteString
+    call crlf
+    call WaitMsg
+    call clrscr
+    ret
+initial_choice ENDP
+
+validate_subject_choice PROC
+    cmp eax,1
+    jl invalid_subject
+    cmp eax,7    
+    jg invalid_subject
+    clc 
+    ret
+    
+invalid_subject:
+    mov edx,OFFSET invalid_subject_msg
+    call WriteString
+    call crlf
+    call crlf
+    stc  
+    ret
+validate_subject_choice ENDP
+
+get_valid_answer PROC
+answer_input:
+    mov edx,OFFSET userPrompt
+    call WriteString
+    
+    mov edx,OFFSET buffer1
+    mov ecx,buffersize
+    call ReadString
+    cmp eax, 0
+    je empty_input
+    
+    cmp eax,1
+    jne invalid_answer
+    
+    mov al,buffer1
+    cmp al,'A'
+    je valid_answer
+    cmp al,'B'
+    je valid_answer
+    
+    jmp invalid_answer
+
+empty_input:
+    mov edx,OFFSET empty_input_msg
+    call WriteString
+    call crlf
+    jmp answer_input
+
+invalid_answer:
+    mov edx,OFFSET invalid_answer_msg
+    call WriteString
+    call crlf
+    jmp answer_input
+
+valid_answer:
+    ret
+get_valid_answer ENDP
+
+Result PROC
+    cmp al,buffer1
+    je correct
+    jmp incorrect
+    correct:
+    mov edx,OFFSET correctMessage
+    call WriteString
+    inc score
+    call crlf
+    ret
+    
+incorrect:
+    mov edx,OFFSET incorrectMessage
+    call WriteString
+    call crlf
+    ret
+Result ENDP
+
+get_random_question PROC
+    push ecx
+    mov ecx, 7                    
+    call find_unasked_question
+    cmp eax, -1
+    jne found_question
+    
+    ; All questions asked, reset flags
+    mov esi, OFFSET question_flags
+    mov ecx, 7                    
+reset_flags:
+    mov byte ptr [esi], 0
+    inc esi
+    loop reset_flags
+    call find_unasked_question
+
+found_question:
+    pop ecx
+    ret
+get_random_question ENDP
+find_unasked_question PROC
+    push ecx
+    push ebx
+    mov ecx, 0
+    
+try_again:
+    mov eax, 7                  
+    call RandomRange
+    
+    ; Check if question already asked
+    mov ebx, OFFSET question_flags
+    add ebx, eax
+    cmp byte ptr [ebx], 0
+    je found_unasked
+    
+    inc ecx
+    cmp ecx, 35                
+    jl try_again
+    
+    ; If we can't find an unasked question, find the first available one
+    mov ecx, 0
+find_first_available:
+    mov ebx, OFFSET question_flags
+    add ebx, ecx
+    cmp byte ptr [ebx], 0
+    je found_forced
+    inc ecx
+    cmp ecx, 7                    
+    jl find_first_available
+    mov eax, -1
+    jmp done
+    
+found_forced:
+    mov eax, ecx
+    jmp mark_question
+    
+found_unasked:
+    ; Continue with marking the question
+    
+mark_question:
+    mov byte ptr [ebx], 1         ; Mark as asked
+    mov current_question_index, eax
+    
+done:
+    pop ebx
+    pop ecx
+    ret
+find_unasked_question ENDP
+
+display_analysis PROC
+    call crlf
+    mov edx, OFFSET analysis_header
+    call WriteString
+    call crlf
+    mov edx, OFFSET separator_line
+    call WriteString
+    call crlf
+    mov edx, OFFSET question_header
+    call WriteString
+    call crlf
+    mov edx, OFFSET separator_line
+    call WriteString
+    call crlf
+    
+    ; Display each question result
+    mov ecx, 0
+analysis_loop:
+    cmp ecx, 7                    
+    jge analysis_done
+    
+    ; Display question number
+    mov eax, ecx
+    inc eax
+    call WriteDec
+    mov al, ' '
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    
+    ; Display user's answer
+    mov esi, OFFSET user_answers
+    add esi, ecx
+    mov al, [esi]
+    call WriteChar
+    mov al, ' '
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    
+    ; Display correct answer
+    mov esi, OFFSET correct_answers
+    add esi, ecx
+    mov al, [esi]
+    call WriteChar
+    mov al, ' '
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    call WriteChar
+    
+    mov esi, OFFSET user_answers
+    add esi, ecx
+    mov al, [esi]
+    mov esi, OFFSET correct_answers
+    add esi, ecx
+    mov bl, [esi]
+    cmp al, bl
+    je show_correct
+    
+    mov edx, OFFSET incorrectMessage
+    call WriteString
+    jmp next_question
+    
+show_correct:
+    mov edx, OFFSET correctMessage
+    call WriteString
+    
+next_question:
+    call crlf
+    inc ecx
+    jmp analysis_loop
+    
+analysis_done:
+    call crlf
+    
+    mov edx, OFFSET correct_count_msg
+    call WriteString
+    mov eax, score
+    call WriteDec
+    call crlf
+    
+    mov edx, OFFSET incorrect_count_msg
+    call WriteString
+    mov eax, 7                   
+    sub eax, score
+    call WriteDec
+    call crlf
+    
+    mov edx, OFFSET percentage_msg
+    call WriteString
+    mov eax, score
+    imul eax, 100
+    cdq
+    mov ebx, 7                  
+    idiv ebx
+    call WriteDec
+    mov edx, OFFSET percent_sign
+    call WriteString
+    call crlf
+    call crlf
+    
+    ret
+display_analysis ENDP
+
+login PROC
+enter 0,0
+login_start:
+    mov eax, attempt_count
+    cmp eax, max_attempts
+    jge too_many_attempts
+    
+    mov edx,OFFSET username_prompt
+    call WriteString
+    mov edx,OFFSET input           
+    mov ecx,SIZEOF input
+    call ReadString
+    
+    mov esi,OFFSET username
+    mov edi,OFFSET input
+    call compare_strings
+    jc login_failed
+
+    mov edx,OFFSET password_prompt
+    call WriteString
+    mov edx,OFFSET input            
+    mov ecx,SIZEOF input
+    call ReadString
+    
+    mov esi,OFFSET password
+    mov edi,OFFSET input
+    call compare_strings
+    jc login_failed
+
+    mov edx,OFFSET success_message
+    call WriteString
+    call crlf
+    call WaitMsg
+    call clrscr
+    leave
+    ret
+
+login_failed:
+    inc attempt_count 
+    
+    mov edx,OFFSET failure_message
+    call WriteString
+    call crlf
+    
+    ; Show remaining attempts
+    mov eax, max_attempts
+    sub eax, attempt_count
+    call WriteDec
+    mov edx, OFFSET attempts_remaining_msg  
+    call WriteString
+    call crlf
+    
+    call WaitMsg
+    call clrscr
+    jmp login_start
+
+too_many_attempts:
+    call crlf
+    mov edx, OFFSET goodbye_msg 
+    call WriteString
+    call crlf
+    call WaitMsg
+    leave
+    ret
+login ENDP
+
+register_user PROC
+    call clrscr
+    mov edx, OFFSET WelcomeMsg
+    call WriteString
+    call crlf
+    call crlf
+    
+    mov edx,OFFSET new_username_prompt
+    call WriteString
+    mov edx,OFFSET input             
+    mov ecx,SIZEOF input
+    call ReadString
+    
+    ; Copy new username using simple loop
+    mov esi, OFFSET input
+    mov edi, OFFSET username
+copy_username_loop:
+    mov al, [esi]
+    mov [edi], al
+    inc esi
+    inc edi
+    cmp al, 0
+    jne copy_username_loop
+    
+    mov edx,OFFSET new_password_prompt
+    call WriteString
+    mov edx,OFFSET input             
+    mov ecx,SIZEOF input
+    call ReadString
+    
+    ; Copy new password using simple loop
+    mov esi, OFFSET input
+    lea edi, password
+copy_password_loop:
+    mov al, [esi]
+    mov [edi], al
+    inc esi
+    inc edi
+    cmp al, 0
+    jne copy_password_loop
+    
+    mov attempt_count, 0
+    ret
+register_user ENDP
+
+compare_strings PROC    
+compare_loop:
+    mov al,[esi]
+    mov bl,[edi]
+    
+    cmp al, bl
+    jne strings_not_equal
+    cmp al, 0
+    je strings_equal
+    
+    inc esi
+    inc edi
+    jmp compare_loop
+
+strings_not_equal:
+    stc    
+    ret
+
+strings_equal:
+    clc   
+    ret
+compare_strings ENDP
+
+reset_question_flags PROC
+    push esi
+    push ecx
+    
+    mov esi, OFFSET question_flags
+    mov ecx, 7
+reset_loop:
+    mov byte ptr [esi], 0
+    inc esi
+    loop reset_loop
+    
+    pop ecx
+    pop esi
+    ret
+reset_question_flags ENDP
+
+ask_continue PROC
+    call crlf
+    mov edx, OFFSET continue_prompt
+    call WriteString
+    
+ask_continue_input:
+    mov edx, OFFSET input
+    mov ecx, 2
+    call ReadString
+    
+    mov al, [input]
+    cmp al, 'Y'
+    je continue_yes
+    cmp al, 'y'
+    je continue_yes
+    cmp al, 'N'
+    je continue_no
+    cmp al, 'n'
+    je continue_no
+    
+    mov edx, OFFSET invalid_continue_msg
+    call WriteString
+    call crlf
+    jmp ask_continue_input
+
+continue_yes:
+    call clrscr
+    mov score, 0
+    call reset_question_flags
+    ret    
+
+continue_no:
+    call crlf
+    mov edx, OFFSET thank_you_msg
+    call WriteString
+    call crlf
+    call crlf
+    mov edx, OFFSET scoremsg
+    call WriteString
+    mov eax, score
+    call WriteInt
+    call crlf
+    call WaitMsg
+    exit    
+ask_continue ENDP
+
+end main
